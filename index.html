@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>彼女が待っています - 限定配信</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(135deg, #1a0b2e 0%, #3a1c4d 100%);
+            color: #ffffff;
+            font-family: "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        .bg-effect {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.3;
+            z-index: -1;
+        }
+        .container {
+            background: rgba(20, 20, 30, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 126, 179, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            position: relative;
+        }
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 12px;
+            color: #aaa;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 10px;
+        }
+        .live-badge {
+            background: #ff0055;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+        /* 头像容器样式 */
+        .avatar-container {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            border: 3px solid #ff7eb3;
+            padding: 3px;
+            background: rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-size: cover;
+            background-position: center;
+            transition: background-image 0.5s ease-in-out;
+        }
+        .online-dot {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            width: 15px;
+            height: 15px;
+            background: #00ff00;
+            border-radius: 50%;
+            border: 2px solid #1a0b2e;
+        }
+        h1 {
+            font-size: 22px;
+            margin-bottom: 8px;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 126, 179, 0.5);
+        }
+        p.subtitle {
+            font-size: 14px;
+            color: #d1d1d1;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+        .chat-bubble {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 15px;
+            border-radius: 15px;
+            border-bottom-left-radius: 0;
+            margin-bottom: 20px;
+            display: inline-block;
+            text-align: left;
+            max-width: 80%;
+            font-size: 13px;
+            position: relative;
+        }
+        .chat-bubble::before {
+            content: "さくら";
+            color: #ff7eb3;
+            font-size: 10px;
+            display: block;
+            margin-bottom: 4px;
+            font-weight: bold;
+        }
+        .btn-main {
+            background: linear-gradient(45deg, #ff7eb3, #ff758c);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(255, 126, 179, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-main:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 126, 179, 0.6);
+        }
+        .btn-main:active {
+            transform: scale(0.98);
+        }
+        .stats {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #888;
+        }
+        .stats span {
+            color: #fff;
+            font-weight: bold;
+        }
+        @keyframes pulse {
+            0% { opacity: 0.6; transform: scale(0.95); }
+            50% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0.6; transform: scale(0.95); }
+        }
+        #loader {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 999;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 126, 179, 0.3);
+            border-top: 5px solid #ff7eb3;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+<div class="bg-effect"></div>
+
+<div class="container">
+    <div class="status-bar">
+        <div id="location">Tokyo, Japan</div>
+        <div class="live-badge">LIVE</div>
+    </div>
+
+    <div class="avatar-container">
+        <div class="avatar" id="avatar-img"></div>
+        <div class="online-dot"></div>
+    </div>
+
+    <h1>彼女が待っています...</h1>
+    <p class="subtitle">今夜だけ、あなた専用の配信です。<br>今すぐチェックして、秘密の動画を見ましょう。</p>
+
+    <!-- 聊天模拟气泡 -->
+    <div class="chat-bubble">
+        「ねえ、見てる？<br>ちょっと待っててね...」
+    </div>
+
+    <br>
+
+    <!-- 按钮 -->
+    <button class="btn-main" onclick="startProcess()">
+        📺 今すぐ無料配信を見る
+    </button>
+
+    <div class="stats">
+        現在 <span id="online-count">13,892</span> 人がオンライン
+    </div>
+</div>
+
+<!-- 加载遮罩 -->
+<div id="loader">
+    <div class="spinner"></div>
+    <div id="loader-text" style="margin-top:10px; font-size:14px;">ブラウザを確認中...</div>
+</div>
+
+<script>
+    // *** 你的 CPA 链接 ***
+    const CPA_LINK = "https://d1bi3o2pwkkxw0.cloudfront.net/bx/pornhub";
+
+    // *** 真实可用的图片链接 (Unsplash/Pexels 源，稳定且高清) ***
+    // 这些是亚洲/韩国/日本风格的高颜值女性图片
+    const images = [
+        'https://images.unsplash.com/photo-1534528741775-53902f08436d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80', // 图1: 亚洲女孩正面
+        'https://images.unsplash.com/photo-1541604193445-bae7121274c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80', // 图2: 侧脸/性感风
+        'https://images.unsplash.com/photo-1485230405346-71acb9518433?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80', // 图3: 甜美风
+        'https://images.unsplash.com/photo-1512510186453-8dc072488f63?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'  // 图4: 清新风
+    ];
+
+    let currentImageIndex = 0;
+    const avatarEl = document.getElementById('avatar-img');
+
+    // 初始化第一张图
+    avatarEl.style.backgroundImage = `url('${images[0]}')`;
+
+    // 自动轮换照片 (每4秒换一张，营造真人感)
+    setInterval(() => {
+        currentImageIndex = (currentImageIndex + 1) % images.length;
+        avatarEl.style.backgroundImage = `url('${images[currentImageIndex]}')`;
+    }, 4000);
+
+    function startProcess() {
+        const loader = document.getElementById('loader');
+        const loaderText = document.getElementById('loader-text');
+        const btn = document.querySelector('.btn-main');
+        
+        btn.style.display = 'none';
+        loader.style.display = 'flex';
+
+        // 步骤 1: 检查浏览器
+        setTimeout(() => {
+            loaderText.innerText = "デバイスを確認中...";
+        }, 1500);
+
+        // 步骤 2: 连接服务器
+        setTimeout(() => {
+            loaderText.innerText = "サーバーに接続中...";
+        }, 3000);
+
+        // 步骤 3: 跳转
+        setTimeout(() => {
+            window.location.href = CPA_LINK;
+        }, 4500);
+    }
+
+    // 在线人数随机跳动
+    setInterval(() => {
+        const el = document.getElementById('online-count');
+        let current = parseInt(el.innerText.replace(/,/g, ''));
+        let change = Math.floor(Math.random() * 200) - 100;
+        let newCount = current + change;
+        if(newCount < 13000) newCount = 13000;
+        if(newCount > 14000) newCount = 14000;
+        el.innerText = newCount.toLocaleString();
+    }, 2000);
+</script>
+
+</body>
+</html>
