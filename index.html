@@ -222,13 +222,13 @@
     // *** 你的 CPA 链接 ***
     const CPA_LINK = "https://d1bi3o2pwkkxw0.cloudfront.net/bx/pornhub";
 
-    // *** 真实可用的图片链接 (Unsplash/Pexels 源，稳定且高清) ***
-    // 这些是亚洲/韩国/日本风格的高颜值女性图片
+    // *** 已修改为指向本地 img 文件夹的图片路径 ***
+    // (如果你的图片后缀是 .png，请把下面的 .jpg 改成 .png)
     const images = [
-        'https://images.unsplash.com/photo-1534528741775-53902f08436d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80', // 图1: 亚洲女孩正面
-        'https://images.unsplash.com/photo-1541604193445-bae7121274c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80', // 图2: 侧脸/性感风
-        'https://images.unsplash.com/photo-1485230405346-71acb9518433?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80', // 图3: 甜美风
-        'https://images.unsplash.com/photo-1512510186453-8dc072488f63?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'  // 图4: 清新风
+        './img/girl1.jpg',
+        './img/girl2.jpg',
+        './img/girl3.jpg',
+        './img/girl4.jpg'
     ];
 
     let currentImageIndex = 0;
@@ -237,7 +237,7 @@
     // 初始化第一张图
     avatarEl.style.backgroundImage = `url('${images[0]}')`;
 
-    // 自动轮换照片 (每4秒换一张，营造真人感)
+    // 自动轮换照片 (每4秒换一张)
     setInterval(() => {
         currentImageIndex = (currentImageIndex + 1) % images.length;
         avatarEl.style.backgroundImage = `url('${images[currentImageIndex]}')`;
