@@ -29,9 +29,9 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 126, 179, 0.3);
             border-radius: 20px;
-            padding: 30px;
+            padding: 35px 30px;
             width: 90%;
-            max-width: 400px;
+            max-width: 440px; /* 稍微放宽卡片 */
             text-align: center;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             position: relative;
@@ -55,12 +55,12 @@
             font-weight: bold;
             animation: pulse 2s infinite;
         }
-        /* 头像容器样式 */
+        /* 已将头像从 100px 放大到 140px */
         .avatar-container {
-            width: 100px;
-            height: 100px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
-            margin: 0 auto 15px;
+            margin: 0 auto 18px;
             border: 3px solid #ff7eb3;
             padding: 3px;
             background: rgba(0,0,0,0.2);
@@ -77,16 +77,16 @@
         }
         .online-dot {
             position: absolute;
-            bottom: 5px;
-            right: 5px;
-            width: 15px;
-            height: 15px;
+            bottom: 8px;
+            right: 8px;
+            width: 18px;
+            height: 18px;
             background: #00ff00;
             border-radius: 50%;
             border: 2px solid #1a0b2e;
         }
         h1 {
-            font-size: 22px;
+            font-size: 24px;
             margin-bottom: 8px;
             color: #fff;
             text-shadow: 0 0 10px rgba(255, 126, 179, 0.5);
@@ -195,14 +195,12 @@
     <h1>彼女が待っています...</h1>
     <p class="subtitle">今夜だけ、あなた専用の配信です。<br>今すぐチェックして、秘密の動画を見ましょう。</p>
 
-    <!-- 聊天模拟气泡 -->
     <div class="chat-bubble">
         「ねえ、見てる？<br>ちょっと待っててね...」
     </div>
 
     <br>
 
-    <!-- 按钮 -->
     <button class="btn-main" onclick="startProcess()">
         📺 今すぐ無料配信を見る
     </button>
@@ -212,18 +210,14 @@
     </div>
 </div>
 
-<!-- 加载遮罩 -->
 <div id="loader">
     <div class="spinner"></div>
     <div id="loader-text" style="margin-top:10px; font-size:14px;">ブラウザを確認中...</div>
 </div>
 
 <script>
-    // *** 你的 CPA 链接 ***
     const CPA_LINK = "https://d1bi3o2pwkkxw0.cloudfront.net/bx/pornhub";
 
-    // *** 已修改为指向本地 img 文件夹的图片路径 ***
-    // (如果你的图片后缀是 .png，请把下面的 .jpg 改成 .png)
     const images = [
         './img/girl1.jpg',
         './img/girl2.jpg',
@@ -234,10 +228,8 @@
     let currentImageIndex = 0;
     const avatarEl = document.getElementById('avatar-img');
 
-    // 初始化第一张图
     avatarEl.style.backgroundImage = `url('${images[0]}')`;
 
-    // 自动轮换照片 (每4秒换一张)
     setInterval(() => {
         currentImageIndex = (currentImageIndex + 1) % images.length;
         avatarEl.style.backgroundImage = `url('${images[currentImageIndex]}')`;
@@ -251,23 +243,19 @@
         btn.style.display = 'none';
         loader.style.display = 'flex';
 
-        // 步骤 1: 检查浏览器
         setTimeout(() => {
             loaderText.innerText = "デバイスを確認中...";
         }, 1500);
 
-        // 步骤 2: 连接服务器
         setTimeout(() => {
             loaderText.innerText = "サーバーに接続中...";
         }, 3000);
 
-        // 步骤 3: 跳转
         setTimeout(() => {
             window.location.href = CPA_LINK;
         }, 4500);
     }
 
-    // 在线人数随机跳动
     setInterval(() => {
         const el = document.getElementById('online-count');
         let current = parseInt(el.innerText.replace(/,/g, ''));
