@@ -3,161 +3,211 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>彼女が待っています - 限定配信</title>
+    <title>Hearto - リアルな出会い</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background: linear-gradient(135deg, #1a0b2e 0%, #3a1c4d 100%);
+            background: linear-gradient(135deg, #ffb6c1 0%, #ff69b4 50%, #ff1493 100%);
             color: #ffffff;
-            font-family: "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
-            height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            min-height: 100vh;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            overflow: hidden;
+            padding: 20px 15px 40px;
+            overflow-x: hidden;
         }
-        .bg-effect {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
-            background-size: 50px 50px;
-            opacity: 0.3;
-            z-index: -1;
-        }
-        .container {
-            background: rgba(20, 20, 30, 0.85);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 126, 179, 0.3);
-            border-radius: 20px;
-            padding: 35px 30px;
-            width: 90%;
-            max-width: 440px; /* 稍微放宽卡片 */
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            position: relative;
-        }
-        .status-bar {
+        .header {
+            width: 100%;
+            max-width: 480px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            font-size: 12px;
-            color: #aaa;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 10px;
+            margin-bottom: 25px;
         }
-        .live-badge {
-            background: #ff0055;
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 22px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .logo span {
+            background: #fff;
+            color: #ff1493;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            font-size: 14px;
+        }
+        .online-badge {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(5px);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        .online-dot {
+            width: 8px;
+            height: 8px;
+            background: #00ff7f;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #00ff7f;
+        }
+        .hero-text {
+            width: 100%;
+            max-width: 480px;
+            text-align: left;
+            margin-bottom: 25px;
+        }
+        .hero-text h1 {
+            font-size: 32px;
+            line-height: 1.15;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: #ffffff;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        }
+        .hero-text h1 span {
+            color: #fff;
+            display: block;
+        }
+        .hero-text p {
+            font-size: 14px;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .cards-container {
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+            margin-bottom: 30px;
+            padding-bottom: 5px;
+        }
+        .cards-container::-webkit-scrollbar {
+            display: none;
+        }
+        .profile-card {
+            flex: 0 0 78%;
+            max-width: 320px;
+            height: 380px;
+            border-radius: 24px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            scroll-snap-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 15px;
+            cursor: pointer;
+        }
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .tag-verified {
+            background: rgba(0, 122, 255, 0.85);
             color: white;
             padding: 4px 10px;
             border-radius: 12px;
             font-size: 11px;
             font-weight: bold;
-            animation: pulse 2s infinite;
+            display: flex;
+            align-items: center;
+            gap: 3px;
         }
-        /* 已将头像从 100px 放大到 140px */
-        .avatar-container {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            margin: 0 auto 18px;
-            border: 3px solid #ff7eb3;
-            padding: 3px;
-            background: rgba(0,0,0,0.2);
-            position: relative;
-            overflow: hidden;
+        .tag-online {
+            background: rgba(0, 200, 80, 0.85);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
-        .avatar {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background-size: cover;
-            background-position: center;
-            transition: background-image 0.5s ease-in-out;
+        .card-bottom {
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 70%, transparent 100%);
+            margin: -15px;
+            padding: 25px 15px 15px;
         }
-        .online-dot {
-            position: absolute;
-            bottom: 8px;
-            right: 8px;
-            width: 18px;
-            height: 18px;
-            background: #00ff00;
-            border-radius: 50%;
-            border: 2px solid #1a0b2e;
-        }
-        h1 {
+        .profile-name {
             font-size: 24px;
-            margin-bottom: 8px;
+            font-weight: bold;
             color: #fff;
-            text-shadow: 0 0 10px rgba(255, 126, 179, 0.5);
-        }
-        p.subtitle {
-            font-size: 14px;
-            color: #d1d1d1;
-            margin-bottom: 25px;
-            line-height: 1.5;
-        }
-        .chat-bubble {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 10px 15px;
-            border-radius: 15px;
-            border-bottom-left-radius: 0;
-            margin-bottom: 20px;
-            display: inline-block;
-            text-align: left;
-            max-width: 80%;
-            font-size: 13px;
-            position: relative;
-        }
-        .chat-bubble::before {
-            content: "さくら";
-            color: #ff7eb3;
-            font-size: 10px;
-            display: block;
             margin-bottom: 4px;
+        }
+        .profile-location {
+            font-size: 13px;
+            color: #ddd;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .profile-tag-pill {
+            background: rgba(255, 105, 180, 0.85);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 11px;
+            display: inline-block;
             font-weight: bold;
         }
-        .btn-main {
-            background: linear-gradient(45deg, #ff7eb3, #ff758c);
-            color: white;
+
+        .cta-button {
+            width: 100%;
+            max-width: 480px;
+            background: #ffffff;
+            color: #ff1493;
             border: none;
-            padding: 15px 40px;
+            padding: 16px 20px;
             border-radius: 30px;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            width: 100%;
-            box-shadow: 0 4px 15px rgba(255, 126, 179, 0.4);
-            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
             text-decoration: none;
-            display: inline-block;
+            transition: transform 0.2s, background 0.2s;
         }
-        .btn-main:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 126, 179, 0.6);
+        .cta-button:hover {
+            transform: scale(1.02);
+            background: #fff0f5;
         }
-        .btn-main:active {
+        .cta-button:active {
             transform: scale(0.98);
         }
-        .stats {
-            margin-top: 20px;
-            font-size: 12px;
-            color: #888;
-        }
-        .stats span {
-            color: #fff;
-            font-weight: bold;
-        }
-        @keyframes pulse {
-            0% { opacity: 0.6; transform: scale(0.95); }
-            50% { opacity: 1; transform: scale(1); }
-            100% { opacity: 0.6; transform: scale(0.95); }
-        }
+
         #loader {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95);
+            background: rgba(0,0,0,0.85);
             z-index: 999;
             flex-direction: column;
             justify-content: center;
@@ -168,8 +218,8 @@
         .spinner {
             width: 50px;
             height: 50px;
-            border: 5px solid rgba(255, 126, 179, 0.3);
-            border-top: 5px solid #ff7eb3;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-top: 5px solid #fff;
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-bottom: 20px;
@@ -179,92 +229,99 @@
 </head>
 <body>
 
-<div class="bg-effect"></div>
-
-<div class="container">
-    <div class="status-bar">
-        <div id="location">Tokyo, Japan</div>
-        <div class="live-badge">LIVE</div>
+    <div class="header">
+        <div class="logo">
+            <span>❤️</span> Hearto
+        </div>
+        <div class="online-badge">
+            <div class="online-dot"></div>
+            <span id="online-count">13,496</span> オンラインの女性
+        </div>
     </div>
 
-    <div class="avatar-container">
-        <div class="avatar" id="avatar-img"></div>
-        <div class="online-dot"></div>
+    <div class="hero-text">
+        <h1>リアルな出会い。<br>今夜、あなただけの特別な時間。</h1>
+        <p>アプリをダウンロードして、すぐに無料のチャットや秘密のライブ配信を楽しみましょう。近くにいる魅力的な女性たちと今すぐつながれます。</p>
     </div>
 
-    <h1>彼女が待っています...</h1>
-    <p class="subtitle">今夜だけ、あなた専用の配信です。<br>今すぐチェックして、秘密の動画を見ましょう。</p>
+    <div class="cards-container">
+        <div class="profile-card" style="background-image: url('./img/girl1.jpg');" onclick="startProcess()">
+            <div class="card-top">
+                <div class="tag-verified">✓ 認証済み</div>
+                <div class="tag-online"><div class="online-dot" style="width:6px;height:6px;"></div> オンライン</div>
+            </div>
+            <div class="card-bottom">
+                <div class="profile-name">Priya</div>
+                <div class="profile-location">📍 1.2 km · 東京</div>
+                <div class="profile-tag-pill">🔥 おすすめの女性</div>
+            </div>
+        </div>
 
-    <div class="chat-bubble">
-        「ねえ、見てる？<br>ちょっと待っててね...」
+        <div class="profile-card" style="background-image: url('./img/girl2.jpg');" onclick="startProcess()">
+            <div class="card-top">
+                <div class="tag-verified">✓ 認証済み</div>
+                <div class="tag-online"><div class="online-dot" style="width:6px;height:6px;"></div> オンライン</div>
+            </div>
+            <div class="card-bottom">
+                <div class="profile-name">Anna</div>
+                <div class="profile-location">📍 0.8 km · 大阪</div>
+                <div class="profile-tag-pill">💋 秘密のチャット</div>
+            </div>
+        </div>
+
+        <div class="profile-card" style="background-image: url('./img/girl3.jpg');" onclick="startProcess()">
+            <div class="card-top">
+                <div class="tag-verified">✓ 認証済み</div>
+                <div class="tag-online"><div class="online-dot" style="width:6px;height:6px;"></div> オンライン</div>
+            </div>
+            <div class="card-bottom">
+                <div class="profile-name">Elif</div>
+                <div class="profile-location">📍 2.1 km · 福岡</div>
+                <div class="profile-tag-pill">✨ 新規参加</div>
+            </div>
+        </div>
     </div>
 
-    <br>
-
-    <button class="btn-main" onclick="startProcess()">
-        📺 今すぐ無料配信を見る
+    <button class="cta-button" onclick="startProcess()">
+        💖 無料ダウンロード – 今すぐ始める
     </button>
 
-    <div class="stats">
-        現在 <span id="online-count">13,892</span> 人がオンライン
+    <div id="loader">
+        <div class="spinner"></div>
+        <div id="loader-text" style="margin-top:10px; font-size:15px; font-weight:500;">接続を確認中...</div>
     </div>
-</div>
-
-<div id="loader">
-    <div class="spinner"></div>
-    <div id="loader-text" style="margin-top:10px; font-size:14px;">ブラウザを確認中...</div>
-</div>
 
 <script>
     const CPA_LINK = "https://d1bi3o2pwkkxw0.cloudfront.net/bx/pornhub";
 
-    const images = [
-        './img/girl1.jpg',
-        './img/girl2.jpg',
-        './img/girl3.jpg',
-        './img/girl4.jpg'
-    ];
-
-    let currentImageIndex = 0;
-    const avatarEl = document.getElementById('avatar-img');
-
-    avatarEl.style.backgroundImage = `url('${images[0]}')`;
-
-    setInterval(() => {
-        currentImageIndex = (currentImageIndex + 1) % images.length;
-        avatarEl.style.backgroundImage = `url('${images[currentImageIndex]}')`;
-    }, 4000);
-
     function startProcess() {
         const loader = document.getElementById('loader');
         const loaderText = document.getElementById('loader-text');
-        const btn = document.querySelector('.btn-main');
         
-        btn.style.display = 'none';
         loader.style.display = 'flex';
 
         setTimeout(() => {
-            loaderText.innerText = "デバイスを確認中...";
-        }, 1500);
+            loaderText.innerText = "プロフィールを認証中...";
+        }, 1200);
 
         setTimeout(() => {
-            loaderText.innerText = "サーバーに接続中...";
-        }, 3000);
+            loaderText.innerText = "安全な接続にリダイレクト中...";
+        }, 2500);
 
         setTimeout(() => {
             window.location.href = CPA_LINK;
-        }, 4500);
+        }, 3800);
     }
 
     setInterval(() => {
         const el = document.getElementById('online-count');
         let current = parseInt(el.innerText.replace(/,/g, ''));
-        let change = Math.floor(Math.random() * 200) - 100;
+        let change = Math.floor(Math.random() * 30) - 15;
         let newCount = current + change;
-        if(newCount < 13000) newCount = 13000;
-        if(newCount > 14000) newCount = 14000;
+        if(newCount < 13400) newCount = 13400;
+        if(newCount > 13600) newCount = 13600;
         el.innerText = newCount.toLocaleString();
-    }, 2000);
+    }, 2500);
 </script>
 
 </body>
